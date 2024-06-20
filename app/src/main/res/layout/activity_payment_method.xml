@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentMethodActivity">
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+            <Toolbar
+                android:id="@+id/toolbar2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="88.00dp"
+                android:navigationIcon="@drawable/balck_back_24"
+                android:keyboardNavigationCluster="true"
+                android:title="Select Payment Mode"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250.00dp"
+                android:src="@drawable/cash_payment">
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Fair Amount"
+                android:layout_marginTop="10.00dp"
+                android:layout_gravity="center"
+                android:textSize="20.00sp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10.00dp"
+                android:drawableLeft="@drawable/rupee_logo3"
+                android:text="299"
+                android:textSize="40.00sp" />
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="100.00dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_marginStart="30.00dp"
+                    android:layout_marginTop="20.00dp"
+                    android:layout_marginBottom="15.00dp"
+                    android:drawableStart="@drawable/vector"
+                    android:drawablePadding="30.00dp"
+                    android:text="Apply Coupon"
+                    android:textColor="@color/purple"
+                    android:textSize="16.00dp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/nextBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50.00dp"
+                    android:layout_marginHorizontal="16.00dp"
+                    android:layout_marginBottom="30.00dp"
+                    android:background="@drawable/bg_btn"
+                    android:text="Find a Driver"
+                    android:textColor="@color/white" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+</ScrollView>
