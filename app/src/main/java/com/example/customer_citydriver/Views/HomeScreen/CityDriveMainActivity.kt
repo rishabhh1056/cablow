@@ -1,7 +1,12 @@
-package com.example.customer_citydriver
+package com.example.customer_citydriver.Views.HomeScreen
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,16 +17,24 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.Observer
-import com.example.customer_citydriver.Views.HomeScreen.LocationViewModel
-import com.example.customer_citydriver.Views.HomeScreen.MapViewModel
+import com.example.customer_citydriver.LocationSearchActivity
+import com.example.customer_citydriver.PaymentMethodActivity
+import com.example.customer_citydriver.R
 import com.example.customer_citydriver.databinding.ActivityCityDriveMainBinding
 import com.example.customer_citydriver.manager.LocationPermissionHelper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.mapbox.api.directions.v5.MapboxDirections
+import com.mapbox.geojson.Point
 import com.mapbox.maps.MapView
+import com.mapbox.maps.plugin.annotation.annotations
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
+import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
 import java.lang.ref.WeakReference
 
 class CityDriveMainActivity : AppCompatActivity() {
@@ -62,7 +75,7 @@ class CityDriveMainActivity : AppCompatActivity() {
         mapViewModel.initializeMapView(binding.mapView)
 
         //observe GPS Status
-        locationViewModel.isGPSEnabled.observe(this, Observer {isGPSEnabled ->
+        locationViewModel.isGPSEnabled.observe(this, Observer { isGPSEnabled ->
             if (isGPSEnabled == false)
             {
                 showLocationSettingsDialog()
@@ -255,13 +268,69 @@ class CityDriveMainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQ_CODE && resultCode == RESULT_OK){
-            Log.d("MapData",data?.getDoubleExtra("lat",0.0).toString())
-            Log.d("MapData",data?.getDoubleExtra("long",0.0).toString())
+//            Log.d("MapData",data?.getDoubleExtra("lat",0.0).toString())
+//            Log.d("MapData",data?.getDoubleExtra("long",0.0).toString())
+              val lat = data?.getDoubleExtra("lat",0.0)
+              val lon = data?.getDoubleExtra("long",0.0)
+            if (lat != null && lon != null) {
+                addAnnotationToMap(lat,lon)
+            }
 
         }
 
-
     }
+
+
+    ////////////////////////////////////Adding Marker ////////////////////////////
+    private fun addAnnotationToMap(lat:Double, lon:Double) {
+// Create an instance of the Annotation API and get the PointAnnotationManager.
+        binding.mapView.clearAnimation()
+        bitmapFromDrawableRes(
+            this@CityDriveMainActivity,
+            R.drawable.location_search
+        )?.let {
+            val annotationApi = binding.mapView.annotations
+            annotationApi.cleanup()
+            val pointAnnotationManager = annotationApi?.createPointAnnotationManager()
+// Set options for the resulting symbol layer.
+            val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
+// Define a geographic coordinate.
+                .withPoint(Point.fromLngLat(lon, lat))
+// Specify the bitmap you assigned to the point annotation
+// The bitmap will be added to map style automatically.
+                .withIconImage(it)
+// Add the resulting pointAnnotation to the map.
+            pointAnnotationManager?.create(pointAnnotationOptions)
+        }
+    }
+
+
+    private fun bitmapFromDrawableRes(context: Context, @DrawableRes resourceId: Int) =
+        convertDrawableToBitmap(AppCompatResources.getDrawable(context, resourceId))
+
+    private fun convertDrawableToBitmap(sourceDrawable: Drawable?): Bitmap? {
+        if (sourceDrawable == null) {
+            return null
+        }
+        return if (sourceDrawable is BitmapDrawable) {
+            sourceDrawable.bitmap
+        } else {
+// copying drawable object to not manipulate on the same reference
+            val constantState = sourceDrawable.constantState ?: return null
+            val drawable = constantState.newDrawable().mutate()
+            val bitmap: Bitmap = Bitmap.createBitmap(
+                drawable.intrinsicWidth, drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, canvas.width, canvas.height)
+            drawable.draw(canvas)
+            bitmap
+        }
+    }
+
+
+
 
 
 }

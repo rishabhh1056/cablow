@@ -3,8 +3,6 @@ package com.example.customer_citydriver.View.Authentication.Views.Authentication
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
@@ -16,7 +14,7 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.fragment.findNavController
-import com.example.customer_citydriver.CityDriveMainActivity
+import com.example.customer_citydriver.Views.HomeScreen.CityDriveMainActivity
 import com.example.customer_citydriver.R
 import com.example.customer_citydriver.databinding.FragmentOTPBinding
 
