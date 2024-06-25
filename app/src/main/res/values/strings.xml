@@ -23,5 +23,6 @@
 
 
     <string name="mapbox_access_token">sk.eyJ1IjoicmlzaGFiaGg4MzY4IiwiYSI6ImNsd3V2MHdsODBnYXAycHNhbXh4Z2VkcWoifQ.TwwhQX6SH9RxIiS67Jgq9g</string>
+    <string name="address_autofill_address_apt_hint">Hello Hint\n</string>
 
 </resources>
