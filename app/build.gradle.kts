@@ -113,6 +113,9 @@ dependencies {
     implementation ("com.google.android.gms:play-services-location:21.0.1")
 
 
+    implementation ("com.mapbox.mapboxsdk:mapbox-sdk-services:5.8.0")
+
+
 
 
 

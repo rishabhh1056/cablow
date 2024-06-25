@@ -2,12 +2,11 @@ package com.example.customer_citydriver
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Looper
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.customer_citydriver.Views.HomeScreen.CityDriveMainActivity
 import com.example.customer_citydriver.databinding.ActivityPaymentMethodBinding
 
 class PaymentMethodActivity : AppCompatActivity() {
