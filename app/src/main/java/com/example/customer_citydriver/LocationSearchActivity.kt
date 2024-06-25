@@ -296,13 +296,13 @@ package com.example.customer_citydriver
 
 
 import android.Manifest
-import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -311,13 +311,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 //import com.mapbox.android.core.location.LocationEngineProvider
-import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.Style
 import com.mapbox.search.autofill.AddressAutofill
-import com.mapbox.search.autofill.AddressAutofillOptions
 import com.mapbox.search.autofill.AddressAutofillResult
 import com.mapbox.search.autofill.AddressAutofillSuggestion
 import com.mapbox.search.autofill.Query
@@ -465,7 +463,6 @@ class LocationSearchActivity : AppCompatActivity() {
     }
 
 
-    //Have a Doubt Have a Kitkat
     private fun isPermissionGranted(fineLocation: String): Boolean {
         return (ActivityCompat.checkSelfPermission
         (this@LocationSearchActivity,fineLocation) == PackageManager.PERMISSION_GRANTED)
@@ -502,6 +499,7 @@ class LocationSearchActivity : AppCompatActivity() {
         }
     }
 
+    // This Function is used to Extract the data from selected Result and Set to the Views
     private fun showAddressAutofillResult(result: AddressAutofillResult, fromReverseGeocoding: Boolean) {
         val address = result.address
         cityEditText.setText(address.place)
@@ -510,6 +508,7 @@ class LocationSearchActivity : AppCompatActivity() {
 
         fullAddress.isVisible = true
         fullAddress.text = result.suggestion.formattedAddress
+        //result.suggestion.coordinate.longitude()
 
         pinCorrectionNote.isVisible = true
 
@@ -526,15 +525,26 @@ class LocationSearchActivity : AppCompatActivity() {
 
         ignoreNextQueryTextUpdate = true
         queryEditText.setText(
-            listOfNotNull(
-                address.houseNumber,
-                address.street
-            ).joinToString()
+//            listOfNotNull(
+//                address.houseNumber,
+//                address.street
+//            ).joinToString()
+            result.suggestion.formattedAddress
         )
         queryEditText.clearFocus()
+        setCoordinatesForMap(result.coordinate.latitude(),result.coordinate.longitude())
 
         searchResultsView.isVisible = false
 //        searchResultsView.hideKeyboard()
+    }
+
+    private fun setCoordinatesForMap(latitude: Double, longitude: Double) {
+        val data = Intent()
+        data.putExtra("lat",latitude)
+        data.putExtra("long",longitude)
+
+        setResult(RESULT_OK,data)
+        finish()
     }
 
     private companion object {

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -38,6 +39,8 @@ class CityDriveMainActivity : AppCompatActivity() {
 
     //create binding obj
     private lateinit var binding: ActivityCityDriveMainBinding
+    private final val REQ_CODE = 1010
+
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,7 +165,7 @@ class CityDriveMainActivity : AppCompatActivity() {
 
 
         binding.EtSearchLocation.setOnClickListener {
-            startActivity(Intent(this, LocationSearchActivity::class.java))
+            startActivityForResult(Intent(this, LocationSearchActivity::class.java),REQ_CODE)
             binding.EtSearchLocation.isEnabled = false
         }
 
@@ -246,6 +249,18 @@ class CityDriveMainActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_DIAL)
         intent.data = Uri.parse("tel:8437837835")
         startActivity(intent)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQ_CODE && resultCode == RESULT_OK){
+            Log.d("MapData",data?.getDoubleExtra("lat",0.0).toString())
+            Log.d("MapData",data?.getDoubleExtra("long",0.0).toString())
+
+        }
+
+
     }
 
 
