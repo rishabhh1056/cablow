@@ -306,10 +306,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.example.customer_citydriver.Views.HomeScreen.MapViewModel
 //import com.mapbox.android.core.location.LocationEngineProvider
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
@@ -334,6 +336,10 @@ class LocationSearchActivity : AppCompatActivity() {
     private lateinit var addressAutofillUiAdapter: AddressAutofillUiAdapter
 
     private lateinit var queryEditText: EditText
+
+    private val mapViewModel : MapViewModel by viewModels()
+
+
 
     private lateinit var apartmentEditText: EditText
     private lateinit var cityEditText: EditText
@@ -391,17 +397,17 @@ class LocationSearchActivity : AppCompatActivity() {
             addressAutofill = addressAutofill
         )
 
-//        LocationEngineProvider.getBestLocationEngine(applicationContext).lastKnownLocation(this) { point ->
-//            point?.let {
-//                mapView.getMapboxMap().setCamera(
-//                    CameraOptions.Builder()
-//                        .center(point)
-//                        .zoom(9.0)
-//                        .build()
-//                )
-//                ignoreNextMapIdleEvent = true
-//            }
-//        }
+/*        LocationEngineProvider.getBestLocationEngine(applicationContext).lastKnownLocation(this) { point ->
+            point?.let {
+                mapView.getMapboxMap().setCamera(
+                    CameraOptions.Builder()
+                        .center(point)
+                        .zoom(9.0)
+                        .build()
+                )
+                ignoreNextMapIdleEvent = true
+            }
+        }*/
 
 
         addressAutofillUiAdapter.addSearchListener(object : AddressAutofillUiAdapter.SearchListener {
@@ -465,30 +471,32 @@ class LocationSearchActivity : AppCompatActivity() {
     }
 
 
-    //Have a Doubt Have a Kitkat
+
     private fun isPermissionGranted(fineLocation: String): Boolean {
         return (ActivityCompat.checkSelfPermission
         (this@LocationSearchActivity,fineLocation) == PackageManager.PERMISSION_GRANTED)
     }
 
-//    private fun findAddress(point: Point) {
-//        lifecycleScope.launchWhenStarted {
-//            val response = addressAutofill.suggestions(point, AddressAutofillOptions())
-//
-//            response.onValue { suggestions ->
-//                if (suggestions.isEmpty()) {
-//                    showToast(R.string.address_autofill_error_pin_correction)
-//                } else {
-//                    selectSuggestion(
-//                        suggestions.first(),
-//                        fromReverseGeocoding = true
-//                    )
-//                }
-//            }.onError {
-//                showToast(R.string.address_autofill_error_pin_correction)
-//            }
-//        }
-//    }
+/*
+    private fun findAddress(point: Point) {
+        lifecycleScope.launchWhenStarted {
+            val response = addressAutofill.suggestions(point, AddressAutofillOptions())
+
+            response.onValue { suggestions ->
+                if (suggestions.isEmpty()) {
+                    showToast(R.string.address_autofill_error_pin_correction)
+                } else {
+                    selectSuggestion(
+                        suggestions.first(),
+                        fromReverseGeocoding = true
+                    )
+                }
+            }.onError {
+                showToast(R.string.address_autofill_error_pin_correction)
+            }
+        }
+    }
+*/
 
     private fun selectSuggestion(suggestion: AddressAutofillSuggestion, fromReverseGeocoding: Boolean) {
         lifecycleScope.launchWhenStarted {
@@ -507,6 +515,9 @@ class LocationSearchActivity : AppCompatActivity() {
         cityEditText.setText(address.place)
         stateEditText.setText(address.region)
         zipEditText.setText(address.postcode)
+
+        val coordinateLongitude = result.coordinate.longitude()
+        val coordinateLatitude = result.coordinate.latitude()
 
         fullAddress.isVisible = true
         fullAddress.text = result.suggestion.formattedAddress

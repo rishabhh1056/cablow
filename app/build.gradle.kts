@@ -50,7 +50,8 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.locationdelegation)
+    implementation(libs.core)
+    implementation(libs.identity.credential)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -92,16 +93,22 @@ dependencies {
 
     //Mapbox search Apis
     implementation ("com.mapbox.search:autofill:2.2.0")
-    //discover
-    implementation ("com.mapbox.search:discover:2.2.0")
-    //autocomplete
-    implementation ("com.mapbox.search:place-autocomplete:2.2.0")
 
-    implementation ("com.mapbox.search:offline:2.2.0")
-
-    implementation ("com.mapbox.search:mapbox-search-android:2.2.0")
+    implementation ("com.mapbox.mapboxsdk:mapbox-sdk-services:5.8.0")
 
     implementation ("com.mapbox.search:mapbox-search-android-ui:2.2.0")
+
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+
+//    implementation ("com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0")
+//    implementation ("com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.42.6")
+
+//    implementation ("com.mapbox.mapboxsdk:mapbox-sdk-geoson:5.8.0")
+
+
+
+
+
 
 //    routines
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
@@ -111,6 +118,9 @@ dependencies {
 
 //    implementation ("com.mapbox.navigation:core:2.7.1")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
+
+
+
 
 
 
